@@ -19,18 +19,18 @@ jobs:
       - name: Build variants
         run: |
           cd build
-		  # Server ubuntu old kernel
+          # Server ubuntu old kernel
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=jammy
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=lunar
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=mantic
-		  # Server debian old kernel
+          # Server debian old kernel
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=bullseye
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=bookworm
-		  # Server ubuntu new kernel
+          # Server ubuntu new kernel
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=jammy
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=lunar
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=mantic
-		  # Server debian new kernel
+          # Server debian new kernel
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=bullseye
           ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=bookworm
       - name: Get current date
