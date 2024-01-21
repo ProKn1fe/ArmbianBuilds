@@ -16,7 +16,7 @@ jobs:
       - name: Build variants
         run: |
           cd build
-          ./compile.sh BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy KERNEL_ONLY=no RELEASE=jammy
+          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy KERNEL_ONLY=no RELEASE=jammy
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
