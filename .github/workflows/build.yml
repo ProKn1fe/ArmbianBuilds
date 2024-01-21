@@ -19,7 +19,7 @@ jobs:
       - name: Build variants
         run: |
           cd build
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=jammy ARMBIAN_MIRROR="https://mirror.yandex.ru/mirrors/armbian/"
+          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=jammy DOWNLOAD_MIRROR="bfsu"
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
