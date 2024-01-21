@@ -8,8 +8,8 @@ jobs:
     steps:
       - name: Install Dependencies
         run: |
-          apt update
-          apt install git -y
+          sudo apt update
+          sudo apt install git -y
       - name: Clone repo
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
