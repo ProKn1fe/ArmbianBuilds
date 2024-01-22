@@ -7,6 +7,10 @@ permissions:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        branch: [legacy, edge]
+        system: [jammy, lunar, mantic, bullseye, bookworm]
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
@@ -18,21 +22,9 @@ jobs:
           git clone --depth=1 --branch=main https://github.com/armbian/build
       - name: Build variants
         run: |
+          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b"
           cd build
-          # Server ubuntu old kernel
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=jammy
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=lunar
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=mantic
-          # Server debian old kernel
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=bullseye
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=legacy RELEASE=bookworm
-          # Server ubuntu new kernel
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=jammy
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=lunar
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=mantic
-          # Server debian new kernel
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=bullseye
-          ./compile.sh KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b BRANCH=edge RELEASE=bookworm
+          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }}
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
