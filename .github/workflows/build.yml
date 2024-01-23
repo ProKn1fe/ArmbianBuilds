@@ -50,9 +50,9 @@ jobs:
           git clone --depth=1 --branch=main https://github.com/armbian/build
       - name: Build variants
         run: |
-          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no BUILD_DESKTOP=yes DESKTOP_ENVIROMENT_CONFIG_NAME=config_base DESKTOP_APPGROUP_SELECTED= BOARD=orangepi3b"
+          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no BUILD_DESKTOP=yes DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base DESKTOP_APPGROUP_SELECTED= BOARD=orangepi3b"
           cd build
-          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }} DESKTOP_ENVIROMENT=${{ matrix.desktop }}
+          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }} DESKTOP_ENVIRONMENT=${{ matrix.desktop }}
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
