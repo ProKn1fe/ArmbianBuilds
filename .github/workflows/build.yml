@@ -6,7 +6,7 @@ permissions:
     contents: write
 
 jobs:
-  build:
+  build-server:
     strategy:
       matrix:
         branch: [legacy, edge]
@@ -25,6 +25,34 @@ jobs:
           MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=orangepi3b"
           cd build
           ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }}
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
+      - name: Publish release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "build/output/images/**"
+          tag_name: release-${{ steps.date.outputs.date }}
+  build-desktop:
+    strategy:
+      matrix:
+        branch: [legacy, edge]
+        system: [jammy, lunar, mantic, bullseye, bookworm]
+        desktop: [gnome, xfce]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install git -y
+      - name: Clone repo
+        run: |
+          git clone --depth=1 --branch=main https://github.com/armbian/build
+      - name: Build variants
+        run: |
+          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no BUILD_DESKTOP=yes DESKTOP_ENVIROMENT_CONFIG_NAME=config_base DESKTOP_APPGROUP_SELECTED= BOARD=orangepi3b"
+          cd build
+          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }} DESKTOP_ENVIROMENT=${{ matrix.desktop }}
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
