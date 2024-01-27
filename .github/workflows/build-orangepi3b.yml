@@ -34,7 +34,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: "build/output/images/**"
-          tag_name: release-${{ steps.date.outputs.date }}
+          tag_name: orangepi3b-server-${{ steps.date.outputs.date }}
   build-desktop:
     strategy:
       matrix:
@@ -62,4 +62,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: "build/output/images/**"
-          tag_name: release-${{ steps.date.outputs.date }}
+          tag_name: orangepi3b-desktop-${{ steps.date.outputs.date }}
