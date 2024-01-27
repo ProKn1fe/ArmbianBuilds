@@ -1,4 +1,4 @@
-name: Build custom armbian images
+name: Build OrangePI 3B images
 on:
   schedule:
     - cron: '0 2 * * 1'

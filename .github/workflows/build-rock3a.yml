@@ -1,4 +1,4 @@
-name: Build custom armbian images
+name: Build Rock 3A images
 on:
   schedule:
     - cron: '0 2 * * 1'
