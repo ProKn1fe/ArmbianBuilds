@@ -24,7 +24,7 @@ jobs:
           git clone --depth=1 --branch=main https://github.com/armbian/build
       - name: Build variants
         run: |
-          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no BUILD_MINIMAL=yes BOARD=rock-3a"
+          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no COMPRESS_OUTPUTIMAGE=xz BUILD_MINIMAL=yes BOARD=rock-3a"
           cd build
           ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }}
       - name: Get current date
