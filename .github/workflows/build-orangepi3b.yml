@@ -10,6 +10,7 @@ permissions:
 jobs:
   build-server:
     strategy:
+      fail-fast: false
       matrix:
         branch: [legacy, edge]
         system: [jammy, lunar, mantic, bullseye, bookworm]
@@ -37,6 +38,7 @@ jobs:
           tag_name: ${{ steps.date.outputs.date }}-orangepi3b-server
   build-desktop:
     strategy:
+      fail-fast: false
       matrix:
         branch: [legacy, edge]
         system: [jammy, lunar, mantic, bullseye, bookworm]
