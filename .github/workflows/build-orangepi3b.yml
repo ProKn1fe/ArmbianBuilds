@@ -29,12 +29,12 @@ jobs:
           ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }}
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Publish release
         uses: softprops/action-gh-release@v1
         with:
           files: "build/output/images/**"
-          tag_name: orangepi3b-server-${{ steps.date.outputs.date }}
+          tag_name: ${{ steps.date.outputs.date }}-orangepi3b-server
   build-desktop:
     strategy:
       matrix:
@@ -57,9 +57,10 @@ jobs:
           ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }} DESKTOP_ENVIRONMENT=${{ matrix.desktop }}
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date +'%d-%m-%Y')"
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Publish release
         uses: softprops/action-gh-release@v1
         with:
           files: "build/output/images/**"
+          tag_name: ${{ steps.date.outputs.date }}-orangepi3b-desktop
           tag_name: orangepi3b-desktop-${{ steps.date.outputs.date }}
