@@ -1,0 +1,65 @@
+name: Build OrangePi 5 images
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+    contents: write
+
+jobs:
+  build-server:
+    strategy:
+      matrix:
+        branch: [legacy, edge]
+        system: [jammy, lunar, mantic, bullseye, bookworm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install git -y
+      - name: Clone repo
+        run: |
+          git clone --depth=1 --branch=main https://github.com/armbian/build
+      - name: Build variants
+        run: |
+          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no COMPRESS_OUTPUTIMAGE=xz BUILD_MINIMAL=yes BOARD=orangepi5"
+          cd build
+          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }}
+      - name: Get current date
+        id: date
+         run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: Publish release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "build/output/images/**"
+          tag_name: ${{ steps.date.outputs.date }}-orangepi5-server
+  build-desktop:
+    strategy:
+      matrix:
+        branch: [legacy, edge]
+        system: [jammy, noble, bookworm]
+        desktop: [gnome, xfce]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install git -y
+      - name: Clone repo
+        run: |
+          git clone --depth=1 --branch=main https://github.com/armbian/build
+      - name: Build variants
+        run: |
+          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no COMPRESS_OUTPUTIMAGE=xz BUILD_DESKTOP=yes DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base DESKTOP_APPGROUPS_SELECTED= BOARD=orangepi5"
+          cd build
+          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }} DESKTOP_ENVIRONMENT=${{ matrix.desktop }}
+      - name: Get current date
+        id: date
+         run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      - name: Publish release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "build/output/images/**"
+          tag_name: ${{ steps.date.outputs.date }}-orangepi5-desktop
