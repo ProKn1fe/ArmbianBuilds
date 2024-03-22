@@ -41,7 +41,7 @@ jobs:
       fail-fast: false
       matrix:
         branch: [legacy, edge]
-        system: [jammy, lunar, mantic, bullseye, bookworm]
+        system: [jammy, noble, bookworm]
         desktop: [gnome, xfce]
     runs-on: ubuntu-latest
     steps:
