@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install git -y
+          sudo apt install git qemu-user-static binfmt-support -y
       - name: Clone repo
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
@@ -48,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install git -y
+          sudo apt install git qemu-user-static binfmt-support -y
       - name: Clone repo
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
