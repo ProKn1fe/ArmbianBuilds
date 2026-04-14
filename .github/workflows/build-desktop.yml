@@ -14,21 +14,31 @@ jobs:
         board: [rock-3a, rock-3c, rock-5a, rock-5b, rock-5b-plus, rock-5c, rock-5t, orangepi3b, orangepi4, orangepi5, orangepi5b, orangepi5-max, orangepi5-plus, orangepi5-ultra]
         branch: [legacy, vendor, edge]
         system: [noble, trixie]
+        desktop: [xfce, gnome]
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install git -y
+          sudo apt install git qemu-user-static binfmt-support -y
       - name: Clone repo
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
       - name: Build variants
         run: |
-          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no COMPRESS_OUTPUTIMAGE=xz BUILD_DESKTOP=yes DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base DESKTOP_APPGROUPS_SELECTED= BOARD=${{ matrix.board }}"
           cd build
-          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }} DESKTOP_ENVIRONMENT=${{ matrix.desktop }}
+          ./compile.sh \
+            NO_APT_CACHER=no \
+            KERNEL_CONFIGURE=no \
+            COMPRESS_OUTPUTIMAGE=xz \
+            BUILD_DESKTOP=yes \
+            DESKTOP_ENVIRONMENT_CONFIG_NAME=config_base \
+            DESKTOP_APPGROUPS_SELECTED= \
+            BOARD=${{ matrix.board }} \
+            BRANCH=${{ matrix.branch }} \
+            RELEASE=${{ matrix.system }} \
+            DESKTOP_ENVIRONMENT=${{ matrix.desktop }}
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
