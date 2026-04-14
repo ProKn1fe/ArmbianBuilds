@@ -21,15 +21,21 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install git -y
+          sudo apt install git qemu-user-static binfmt-support -y
       - name: Clone repo
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
       - name: Build variants
         run: |
-          MAIN_PARAMS="NO_APT_CACHER=no KERNEL_CONFIGURE=no COMPRESS_OUTPUTIMAGE=xz BUILD_MINIMAL=${{ matrix.minimal }} BOARD=${{ matrix.board }}"
           cd build
-          ./compile.sh $MAIN_PARAMS BRANCH=${{ matrix.branch }} RELEASE=${{ matrix.system }}
+          ./compile.sh \
+            NO_APT_CACHER=no \
+            KERNEL_CONFIGURE=no \
+            COMPRESS_OUTPUTIMAGE=xz \
+            BUILD_MINIMAL=${{ matrix.minimal }} \
+            BOARD=${{ matrix.board }} \
+            BRANCH=${{ matrix.branch }} \
+            RELEASE=${{ matrix.system }}
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
