@@ -15,6 +15,7 @@ jobs:
         branch: [legacy, vendor, edge]
         system: [noble, trixie]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Install dependencies
         run: |

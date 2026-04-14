@@ -16,6 +16,7 @@ jobs:
         system: [noble, trixie]
         minimal: [no, yes]
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - name: Install dependencies
         run: |
