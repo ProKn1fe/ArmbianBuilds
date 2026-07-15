@@ -13,7 +13,7 @@ jobs:
       matrix:
         board: [rock-3a, rock-3c, rock-5a, rock-5b, rock-5b-plus, rock-5c, rock-5t, orangepi3b, orangepi4, orangepi5, orangepi5b, orangepi5-max, orangepi5-plus, orangepi5-ultra, cix-acpi]
         branch: [legacy, vendor, edge]
-        system: [noble, resolute, trixie]
+        system: [resolute, trixie]
         minimal: [no, yes]
     runs-on: ubuntu-latest
     continue-on-error: true
